@@ -1,0 +1,219 @@
+﻿//VARIABLES
+$intColumnMax: 12;
+$clrSubtleTableHeader: #666666;
+
+//TABLE MIXINS
+@mixin table-row-variant($state, $background) {
+    .table-#{$state} {
+        >th, > td {
+            background-color: $background;
+        }
+    }
+}
+@mixin sel-table-cells {
+    > thead, > tbody {
+        > tr {
+            > th, > td {
+                @content;
+            }
+        }
+    }
+}
+@mixin sel-thead-tr {
+    > tr {
+        > th {
+            @content;
+        }
+    }
+}
+@mixin sel-thead-th {
+    > thead {
+        > tr {
+            > th {
+                @content;
+            }
+        }
+    }
+}
+@mixin sel-tbody-tr {
+    > tr {
+        > td {
+            @content;
+        }
+    }
+}
+@mixin sel-tbody-td {
+    > tbody {
+        > tr {
+            > td {
+                @content;
+            }
+        }
+    }
+}
+
+
+
+.table {
+    //TABLE HEADING STYLES
+    > thead {
+        &.th-subtle {
+            @include sel-thead-tr {
+                color: $clrSubtleTableHeader;
+                font-weight: normal;
+            }
+        }
+        &.th-small {
+            @include sel-thead-tr {
+                font-size: 12px;
+                padding: 0.5rem;
+            }
+        }
+        //th-valign-top, th-valign-middle, th-valign-bottom
+        @each $currentPos in $aryVerticalPos {
+            &.th-valign-#{$currentPos} {
+                @include sel-thead-tr {
+                    vertical-align: $currentPos;
+                }
+            }
+        }
+    }
+    //TABLE COLUMNS
+    &.col-no-dividers {
+        @include sel-table-cells {
+            border-left: 0;
+            border-right: 0;
+        }
+    }
+    //col-[index]-bold
+    @for $i from 1 through $intColumnMax {
+        &.col-#{$i}-bold {
+            @include sel-tbody-td {
+                &:nth-child(#{$i}) {
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+    //col-[index]-italic
+    @for $i from 1 through $intColumnMax {
+        &.col-#{$i}-italic {
+            @include sel-tbody-td {
+                &:nth-child(#{$i}) {
+                    font-style: italic;
+                }
+            }
+        }
+    }
+    //col-[index]-italic
+    @for $i from 1 through $intColumnMax {
+        &.col-#{$i}-uppercase {
+            @include sel-tbody-td {
+                &:nth-child(#{$i}) {
+                    text-transform: uppercase;
+                }
+            }
+        }
+    }
+    //col-[index]-align-right
+    @for $i from 1 through $intColumnMax {
+        &.col-#{$i}-align-right {
+            @include sel-thead-th {
+                &:nth-child(#{$i}) {
+                    text-align: right;
+                }
+            }
+            @include sel-tbody-td {
+                &:nth-child(#{$i}) {
+                    text-align: right;
+                }
+            }
+        }
+    }
+    //col-[index]-align-center
+    @for $i from 1 through $intColumnMax {
+        &.col-#{$i}-align-center {
+            @include sel-thead-th {
+                &:nth-child(#{$i}) {
+                    text-align: center;
+                }
+            }
+            @include sel-tbody-td {
+                &:nth-child(#{$i}) {
+                    text-align: center;
+                }
+            }
+        }
+    }
+    //col-[index]-slim
+    @for $i from 1 through $intColumnMax {
+        &.col-#{$i}-slim {
+            @include sel-thead-th {
+                &:nth-child(#{$i}) {
+                    width: 1%;
+                }
+            }
+            @include sel-tbody-td {
+                &:nth-child(#{$i}) {
+                    white-space: nowrap;
+                    width: 1%;
+                }
+            }
+        }
+    }
+    //col-[index]-bloat
+    @for $i from 1 through $intColumnMax {
+        &.col-#{$i}-bloat {
+            @include sel-thead-th {
+                white-space: nowrap;
+                width: 1%;
+                &:nth-child(#{$i}) {
+                    width: 100%;
+                }
+            }
+            @include sel-tbody-td {
+                white-space: nowrap;
+                width: 1%;
+                &:nth-child(#{$i}) {
+                    width: 100%;
+                }
+            }
+        }
+    }
+    &.col-last-slim {
+        @include sel-thead-th {
+            &:last-child {
+                width: 1%;
+            }
+        }
+        @include sel-tbody-td {
+            &:last-child {
+                width: 1%;
+            }
+        }
+    }
+    &.col-equal {
+        table-layout: fixed;
+    }
+    //col-[index]-checkbox
+    @for $i from 1 through $intColumnMax {
+        &.col-#{$i}-checkbox {
+            @include sel-thead-th {
+                &:nth-child(#{$i}) {
+                    width: 1%;
+                    > label {
+                        margin: 0;
+                    }
+                }
+            }
+            @include sel-tbody-td {
+                &:nth-child(#{$i}) {
+                    width: 1%;
+                    > label {
+                        margin: 0;
+                    }
+                }
+            }
+        }
+    }
+}
